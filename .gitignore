@@ -1,0 +1,44 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Generated reports
+*_ResourcesReport_*.json
+*_ResourcesReport_*.xlsx
+*_ResourcesReport_*.zip
+ResourcesReport_*.json
+ResourcesReport_*.xlsx
+ResourcesReport_*.zip
+
+# Azure credentials
+.azure/
+*.pem
+*.key
