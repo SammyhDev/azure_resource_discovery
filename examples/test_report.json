@@ -1,0 +1,119 @@
+{
+  "azure_resources": {
+    "virtual_machines": [
+      {
+        "name": "test-vm-1",
+        "size": "Standard_B2s",
+        "location": "East US",
+        "resource_group": "test-rg",
+        "os_type": "Linux",
+        "status": "Running"
+      },
+      {
+        "name": "test-vm-2",
+        "size": "Standard_D2s_v3",
+        "location": "West Europe",
+        "resource_group": "test-rg",
+        "os_type": "Windows",
+        "status": "Running"
+      }
+    ],
+    "storage_accounts": [
+      {
+        "name": "teststorage001",
+        "kind": "StorageV2",
+        "sku": "Standard_LRS",
+        "location": "East US",
+        "resource_group": "test-rg",
+        "access_tier": "Hot"
+      },
+      {
+        "name": "backupstorage001",
+        "kind": "StorageV2",
+        "sku": "Standard_GRS",
+        "location": "East US",
+        "resource_group": "test-rg",
+        "access_tier": "Cool"
+      }
+    ],
+    "sql_databases": [
+      {
+        "name": "testdb",
+        "server": "testserver",
+        "sku": "Standard_S1",
+        "location": "East US",
+        "resource_group": "test-rg",
+        "max_size_bytes": 268435456000
+      }
+    ],
+    "app_services": [
+      {
+        "name": "testapp",
+        "kind": "app",
+        "location": "East US",
+        "resource_group": "test-rg",
+        "state": "Running",
+        "server_farm_id": "/subscriptions/test/resourceGroups/test-rg/providers/Microsoft.Web/serverfarms/testplan"
+      }
+    ],
+    "other_resources": [
+      {
+        "name": "test-vnet",
+        "type": "Microsoft.Network/virtualNetworks",
+        "location": "East US",
+        "resource_group": "test-rg"
+      }
+    ]
+  },
+  "aws_cost_estimates": {
+    "ec2_instances": [
+      {
+        "azure_vm_name": "test-vm-1",
+        "azure_size": "Standard_B2s",
+        "aws_instance_type": "t3.small",
+        "monthly_cost": 15.2,
+        "os_type": "Linux"
+      },
+      {
+        "azure_vm_name": "test-vm-2",
+        "azure_size": "Standard_D2s_v3",
+        "aws_instance_type": "m5.large",
+        "monthly_cost": 70.1,
+        "os_type": "Windows"
+      }
+    ],
+    "s3_storage": [
+      {
+        "azure_storage_name": "teststorage001",
+        "azure_tier": "Hot",
+        "estimated_gb": 100,
+        "aws_storage_class": "Standard",
+        "monthly_cost": 2.3
+      },
+      {
+        "azure_storage_name": "backupstorage001",
+        "azure_tier": "Cool",
+        "estimated_gb": 100,
+        "aws_storage_class": "IA",
+        "monthly_cost": 1.25
+      }
+    ],
+    "rds_databases": [
+      {
+        "azure_db_name": "testdb",
+        "azure_sku": "Standard_S1",
+        "aws_instance_type": "db.t3.medium",
+        "monthly_cost": 51.2
+      }
+    ],
+    "lambda_functions": [
+      {
+        "azure_app_name": "testapp",
+        "aws_service": "Lambda + API Gateway",
+        "monthly_cost": 10.0
+      }
+    ],
+    "total_monthly_cost": 150.05
+  },
+  "timestamp": "2025-10-14T14:20:10.847823"
+}

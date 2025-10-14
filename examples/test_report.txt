@@ -1,0 +1,56 @@
+================================================================================
+AZURE RESOURCE DISCOVERY & AWS COST ESTIMATION REPORT
+================================================================================
+Generated: 2025-10-14 14:20:10
+
+AZURE RESOURCES SUMMARY
+----------------------------------------
+Virtual Machines: 2
+Storage Accounts: 2
+SQL Databases: 1
+App Services: 1
+Other Resources: 1
+
+VIRTUAL MACHINES
+----------------------------------------
+• test-vm-1 (Standard_B2s) in East US
+• test-vm-2 (Standard_D2s_v3) in West Europe
+
+STORAGE ACCOUNTS
+----------------------------------------
+• teststorage001 (Standard_LRS) - Hot tier
+• backupstorage001 (Standard_GRS) - Cool tier
+
+SQL DATABASES
+----------------------------------------
+• testdb on testserver (Standard_S1)
+
+APP SERVICES
+----------------------------------------
+• testapp (app) - Running
+
+AWS COST ESTIMATES
+----------------------------------------
+EC2 Instances (from Azure VMs):
+  • test-vm-1 → t3.small: $15.20/month
+  • test-vm-2 → m5.large: $70.10/month
+S3 Storage (from Azure Storage):
+  • teststorage001 → S3 Standard: $2.30/month
+  • backupstorage001 → S3 IA: $1.25/month
+RDS Databases (from Azure SQL):
+  • testdb → db.t3.medium: $51.20/month
+Lambda Functions (from Azure App Services):
+  • testapp → Lambda + API Gateway: $10.00/month
+
+================================================================================
+ESTIMATED TOTAL MONTHLY AWS COST: $150.05
+================================================================================
+
+NOTES:
+• These are rough estimates based on typical usage patterns
+• Actual costs may vary significantly based on:
+  - Actual resource utilization
+  - Data transfer costs
+  - Reserved instance discounts
+  - Specific AWS region pricing
+• For accurate pricing, use AWS Pricing Calculator
