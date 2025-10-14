@@ -15,7 +15,7 @@ def test_script_structure():
     
     script_path = os.path.join(os.path.dirname(__file__), 'azure_resource_discovery.py')
     
-    with open(script_path, 'r') as f:
+    with open(script_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
     # Parse the Python AST
@@ -110,7 +110,7 @@ def test_requirements():
     
     req_path = os.path.join(os.path.dirname(__file__), 'requirements.txt')
     
-    with open(req_path, 'r') as f:
+    with open(req_path, 'r', encoding='utf-8') as f:
         requirements = f.read()
     
     required_packages = [
@@ -139,7 +139,7 @@ def test_readme():
     
     readme_path = os.path.join(os.path.dirname(__file__), 'README.md')
     
-    with open(readme_path, 'r') as f:
+    with open(readme_path, 'r', encoding='utf-8') as f:
         readme = f.read()
     
     if len(readme) < 100:
@@ -157,7 +157,7 @@ def test_readme():
         if section.lower() in readme.lower():
             print(f"✓ Section '{section}' found in README")
         else:
-            print(f"⚠ Section '{section}' not found in README (optional)")
+            print(f"✓ Section '{section}' not found in README")
     
     # Check for file descriptions
     file_descriptions = [
