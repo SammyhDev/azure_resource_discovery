@@ -101,6 +101,23 @@ python scripts/azure_to_aws_cost_analyzer.py --macc-discount 15
 
 ## 🔧 **Troubleshooting**
 
+### "Failed to install Python dependencies"
+If the main scripts fail to install dependencies, use the dedicated setup tools:
+
+```cmd
+# Command Prompt version:
+setup-dependencies.bat
+
+# PowerShell version:
+.\setup-dependencies.ps1
+```
+
+These tools will:
+- ✅ Check all prerequisites
+- ✅ Install packages individually with detailed output
+- ✅ Test each import to verify installation
+- ✅ Provide specific error messages
+
 ### "Azure CLI not found"
 - Reinstall Azure CLI with admin privileges
 - Restart your terminal after installation
@@ -115,5 +132,10 @@ python scripts/azure_to_aws_cost_analyzer.py --macc-discount 15
 - Run terminal as Administrator
 - Check Windows execution policies
 - Use Command Prompt instead of PowerShell
+
+### "Import errors" 
+- Run the dependency setup tools above
+- Try installing with `--user` flag: `pip install azure-identity --user`
+- Update pip: `python -m pip install --upgrade pip`
 
 This ensures Windows users can run the analyzer without any issues! 🚀

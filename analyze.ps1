@@ -89,14 +89,31 @@ catch {
 
 # Install Python dependencies
 Write-Step "Installing Python dependencies"
-Write-Info "This may take a moment..."
+Write-Info "This may take a moment - installing Azure SDK packages..."
+Write-Host ""
+
 try {
-    pip install -r requirements.txt | Out-Null
-    Write-Success "Python dependencies installed!"
+    # Try installing with user flag and upgrade
+    $installResult = pip install -r requirements.txt --user --upgrade 2>&1
+    if ($LASTEXITCODE -eq 0) {
+        Write-Success "Python dependencies installed successfully!"
+    } else {
+        throw "pip install failed with exit code $LASTEXITCODE"
+    }
 }
 catch {
     Write-Error "Failed to install Python dependencies"
-    Write-Host "Error: $_" -ForegroundColor Red
+    Write-Host ""
+    Write-Host "🔧 Troubleshooting steps:" -ForegroundColor Yellow
+    Write-Host "1. Make sure you have internet connection" -ForegroundColor White
+    Write-Host "2. Try running PowerShell as Administrator" -ForegroundColor White
+    Write-Host "3. Update pip: python -m pip install --upgrade pip" -ForegroundColor White
+    Write-Host "4. Manual install: pip install azure-identity azure-mgmt-resource azure-mgmt-compute azure-mgmt-storage azure-mgmt-sql azure-mgmt-web requests" -ForegroundColor White
+    Write-Host ""
+    Write-Host "📋 Required packages:" -ForegroundColor Cyan
+    Get-Content requirements.txt | ForEach-Object { Write-Host "   $_" -ForegroundColor White }
+    Write-Host ""
+    Write-Host "Error details: $_" -ForegroundColor Red
     Read-Host "Press Enter to exit"
     exit 1
 }

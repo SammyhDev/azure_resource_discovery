@@ -79,6 +79,16 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 .\analyze.ps1
 ```
 
+### Dependency Installation Issues:
+If you have trouble with Python dependencies, use the setup tools:
+```cmd
+# Command Prompt:
+setup-dependencies.bat
+
+# PowerShell:
+.\setup-dependencies.ps1
+```
+
 ---
 
 ## 🎯 Alternative Methods (Advanced Users)

@@ -54,14 +54,30 @@ echo ✅ Python found!
 REM Install Python dependencies
 echo.
 echo 🔷 Installing Python dependencies...
-pip install -r requirements.txt
+echo ℹ️  This may take a moment - installing Azure SDK packages...
+echo.
+
+REM Try pip install with verbose output
+pip install -r requirements.txt --user --upgrade
 if %ERRORLEVEL% NEQ 0 (
-    echo ❌ Failed to install Python dependencies
+    echo.
+    echo ❌ Failed to install Python dependencies with pip
+    echo.
+    echo 🔧 Troubleshooting steps:
+    echo 1. Make sure you have internet connection
+    echo 2. Try running as Administrator
+    echo 3. Update pip: python -m pip install --upgrade pip
+    echo 4. Manual install: pip install azure-identity azure-mgmt-resource azure-mgmt-compute azure-mgmt-storage azure-mgmt-sql azure-mgmt-web requests
+    echo.
+    echo 📋 Required packages:
+    type requirements.txt
+    echo.
     pause
     exit /b 1
 )
 
-echo ✅ Python dependencies installed!
+echo.
+echo ✅ Python dependencies installed successfully!
 
 REM Check Azure login
 echo.
