@@ -112,10 +112,14 @@ echo ✅ Python dependencies installed successfully!
 REM Check Azure login
 echo.
 echo 🔷 Checking Azure login...
+
+REM Test Azure login and capture result
 az account show >nul 2>nul
-if %ERRORLEVEL% NEQ 0 (
+set "login_result=%ERRORLEVEL%"
+
+if !login_result! NEQ 0 (
     echo.
-    echo You need to login to Azure
+    echo ❌ You need to login to Azure first
     echo.
     echo Choose login method:
     echo 1^) 🌐 Open web browser ^(recommended^)
@@ -126,23 +130,36 @@ if %ERRORLEVEL% NEQ 0 (
     if "!login_choice!"=="1" (
         echo Opening web browser for login...
         az login
+        set "login_result=!ERRORLEVEL!"
     ) else if "!login_choice!"=="2" (
         echo Starting device code login...
         echo You'll get a code to enter at https://microsoft.com/devicelogin
         az login --use-device-code
+        set "login_result=!ERRORLEVEL!"
     ) else (
-        echo Using default login...
+        echo Using default web browser login...
         az login
+        set "login_result=!ERRORLEVEL!"
     )
     
-    if %ERRORLEVEL% NEQ 0 (
+    if !login_result! NEQ 0 (
         echo ❌ Login failed. Please try again.
+        echo.
         pause
         exit /b 1
     )
+) else (
+    echo ✅ Already logged into Azure!
+    
+    REM Show current account info
+    echo.
+    echo 📋 Current Azure Account:
+    for /f "tokens=*" %%i in ('az account show --query "name" -o tsv 2^>nul') do echo    Subscription: %%i
+    for /f "tokens=*" %%i in ('az account show --query "user.name" -o tsv 2^>nul') do echo    User: %%i
+    echo.
 )
 
-echo ✅ Azure login successful!
+echo ✅ Azure authentication verified!
 
 REM Ask about MACC discount
 echo.

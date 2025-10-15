@@ -45,6 +45,9 @@ logger = logging.getLogger(__name__)
 class AzureResourceDiscovery:
     def __init__(self, subscription_id: Optional[str] = None):
         """Initialize Azure clients."""
+        logger.info("Initializing Azure Resource Discovery...")
+        logger.info(f"Provided subscription ID: {subscription_id}")
+        
         self.subscription_id = subscription_id or self._get_default_subscription()
         
         # Try CLI credential first, then default
@@ -64,11 +67,17 @@ class AzureResourceDiscovery:
     def _get_default_subscription(self) -> str:
         """Get the default subscription ID from Azure CLI."""
         try:
+            logger.info("Getting default subscription ID from Azure CLI...")
             result = subprocess.run(['az', 'account', 'show', '--query', 'id', '-o', 'tsv'], 
                                   capture_output=True, text=True, check=True)
-            return result.stdout.strip()
-        except subprocess.CalledProcessError:
+            subscription_id = result.stdout.strip()
+            logger.info(f"Found subscription ID: {subscription_id}")
+            return subscription_id
+        except subprocess.CalledProcessError as e:
             logger.error("Unable to get default subscription.")
+            logger.error(f"Command failed with return code: {e.returncode}")
+            if e.stderr:
+                logger.error(f"Error output: {e.stderr}")
             logger.error("Please login to Azure CLI first:")
             logger.error("")
             logger.error("Quick login:")
