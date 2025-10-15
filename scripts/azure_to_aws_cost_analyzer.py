@@ -214,8 +214,16 @@ class AzureResourceDiscovery:
 class AWSCostEstimator:
     """Estimate AWS costs for Azure resources with dynamic pricing."""
     
-    def __init__(self):
+    def __init__(self, macc_discount=0):
+        self.macc_discount = macc_discount
         self.pricing_data = self.get_dynamic_pricing()
+    
+    def apply_macc_discount(self, azure_cost):
+        """Apply MACC discount to Azure costs"""
+        if self.macc_discount > 0:
+            discounted_cost = azure_cost * (1 - self.macc_discount / 100)
+            return discounted_cost
+        return azure_cost
     
     def get_dynamic_pricing(self):
         """Get real-time pricing from APIs with caching"""
@@ -569,6 +577,7 @@ def main():
     parser.add_argument('--subscription-id', help='Azure subscription ID (optional)')
     parser.add_argument('--output', '-o', help='Output file for the report (optional)')
     parser.add_argument('--json', action='store_true', help='Output results in JSON format')
+    parser.add_argument('--macc-discount', type=float, default=0, help='MACC discount percentage (0-50)')
     
     args = parser.parse_args()
     
@@ -580,7 +589,7 @@ def main():
         azure_resources = discovery.discover_resources()
         
         # Estimate AWS costs
-        cost_estimator = AWSCostEstimator()
+        cost_estimator = AWSCostEstimator(macc_discount=args.macc_discount)
         aws_costs = cost_estimator.estimate_costs(azure_resources)
         
         if args.json:

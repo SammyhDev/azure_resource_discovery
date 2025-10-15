@@ -22,10 +22,11 @@ That's it! The script will:
 - 🎯 **Ultra-Simple**: Single script handles everything automatically
 - 🔄 **Dynamic Pricing**: Real-time pricing from Azure API (349+ VM SKUs)
 - 💾 **Smart Caching**: 6-hour cache for performance with always-current data
+- 🏢 **MACC Discount Support**: Applies enterprise volume discounts for accurate comparisons
 - 🔐 **Secure Login**: Guided Azure CLI authentication with multiple options
 - 📊 **Comprehensive Analysis**: Discovers VMs, Storage, SQL, Apps, and more
 - 💰 **Live Cost Comparison**: Side-by-side Azure vs AWS with current rates
-- 📈 **Accurate Savings**: Real market-based potential savings calculations  
+- 📈 **Enterprise-Ready**: Factors in your actual discounted Azure pricing  
 - 📄 **Detailed Reports**: Saves analysis to timestamped files
 - 🔄 **Multiple Subscriptions**: Easy subscription selection
 - 🛠️ **Professional Tools**: Full analyzer suite for advanced users
@@ -98,6 +99,12 @@ That's it! You'll get a comprehensive report showing:
 - **Smart Caching**: 6-hour cache for performance
 - **349 Azure VM SKUs**: Comprehensive coverage of all VM types
 - **Auto-Fallback**: Verified pricing if APIs are unavailable
+
+### 🏢 Enterprise MACC Support:
+- **Volume Discounts**: Applies your MACC discount percentages automatically
+- **Accurate Comparisons**: Uses your actual Azure costs, not list prices
+- **Enterprise Planning**: Perfect for organizations with volume commitments
+- **Easy Configuration**: Simple interactive setup during analysis
 
 ## 💡 Usage Examples
 

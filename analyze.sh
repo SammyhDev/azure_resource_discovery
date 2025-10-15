@@ -209,7 +209,45 @@ FINAL_SUB=$(az account show --query name -o tsv)
 FINAL_SUB_ID=$(az account show --query id -o tsv)
 print_success "Using subscription: $FINAL_SUB ($FINAL_SUB_ID)"
 
-# Step 5: Create the analyzer script inline
+# Step 5: Ask about MACC discount
+print_step "Azure Pricing Configuration"
+echo ""
+echo "💰 Microsoft Azure Consumption Commitment (MACC) Discount"
+echo "========================================================="
+echo ""
+echo "Do you have a MACC (Microsoft Azure Consumption Commitment) agreement"
+echo "that provides volume discounts on your Azure consumption?"
+echo ""
+echo "Examples:"
+echo "• Enterprise agreements with negotiated discounts"
+echo "• Volume commitment discounts (5%, 10%, 15%, etc.)"
+echo "• Partner program discounts"
+echo ""
+read -p "Do you have a MACC discount? (y/n): " has_macc
+
+MACC_DISCOUNT=0
+if [[ $has_macc =~ ^[Yy]$ ]]; then
+    echo ""
+    echo "📊 What percentage discount do you receive on Azure services?"
+    echo "   (Enter just the number, e.g., '10' for 10% discount)"
+    echo ""
+    read -p "Enter your MACC discount percentage (0-50): " discount_input
+    
+    # Validate discount input
+    if [[ "$discount_input" =~ ^[0-9]+$ ]] && [ "$discount_input" -ge 0 ] && [ "$discount_input" -le 50 ]; then
+        MACC_DISCOUNT=$discount_input
+        print_success "Applied ${MACC_DISCOUNT}% MACC discount to Azure costs"
+    else
+        print_warning "Invalid discount entered, using 0% (no discount)"
+        MACC_DISCOUNT=0
+    fi
+else
+    print_info "No MACC discount applied - using standard Azure pricing"
+fi
+
+echo ""
+
+# Step 6: Create the analyzer script inline
 print_step "Creating analyzer script"
 
 cat > azure_analyzer.py << 'EOF'
@@ -252,6 +290,16 @@ class SimpleAnalyzer:
         self.storage_client = StorageManagementClient(self.credential, self.subscription_id)
         self.sql_client = SqlManagementClient(self.credential, self.subscription_id)
         self.web_client = WebSiteManagementClient(self.credential, self.subscription_id)
+        
+        # Get MACC discount from environment variable
+        self.macc_discount = float(os.getenv('MACC_DISCOUNT', '0'))
+    
+    def apply_macc_discount(self, azure_cost):
+        """Apply MACC discount to Azure costs"""
+        if self.macc_discount > 0:
+            discounted_cost = azure_cost * (1 - self.macc_discount / 100)
+            return discounted_cost
+        return azure_cost
 
     def get_dynamic_pricing(self):
         """Get real-time pricing from APIs with caching"""
@@ -453,14 +501,16 @@ class SimpleAnalyzer:
                         aws_type = size_map.get(vm_size, 't3.medium')
                         aws_cost = aws_vm_costs.get(aws_type, 30.4)
                         
-                        # Azure cost
-                        azure_cost = azure_costs['vm_costs'].get(vm_size, azure_costs['vm_costs']['default'])
+                        # Azure cost with MACC discount
+                        azure_cost_raw = azure_costs['vm_costs'].get(vm_size, azure_costs['vm_costs']['default'])
+                        azure_cost = self.apply_macc_discount(azure_cost_raw)
                         
                         total_aws_cost += aws_cost
                         total_azure_cost += azure_cost
                         resources['vms'].append({
                             'name': vm.name, 'azure_size': vm.hardware_profile.vm_size, 
-                            'aws_type': aws_type, 'aws_cost': aws_cost, 'azure_cost': azure_cost
+                            'aws_type': aws_type, 'aws_cost': aws_cost, 'azure_cost': azure_cost,
+                            'azure_cost_raw': azure_cost_raw, 'macc_discount': self.macc_discount
                         })
                     except: pass
                 
@@ -470,40 +520,46 @@ class SimpleAnalyzer:
                     # AWS S3 cost
                     aws_cost = estimated_gb * aws_storage_cost_per_gb
                     
-                    # Azure Storage cost (assume Standard LRS)
-                    azure_cost = estimated_gb * azure_costs['storage_costs']['standard_lrs']
+                    # Azure Storage cost with MACC discount
+                    azure_cost_raw = estimated_gb * azure_costs['storage_costs']['standard_lrs']
+                    azure_cost = self.apply_macc_discount(azure_cost_raw)
                     
                     total_aws_cost += aws_cost
                     total_azure_cost += azure_cost
                     resources['storage'].append({
                         'name': resource.name, 'estimated_gb': estimated_gb,
-                        'aws_cost': aws_cost, 'azure_cost': azure_cost
+                        'aws_cost': aws_cost, 'azure_cost': azure_cost,
+                        'azure_cost_raw': azure_cost_raw, 'macc_discount': self.macc_discount
                     })
                 
                 elif 'database' in resource_type and 'sql' in resource_type:
                     # AWS RDS cost
                     aws_cost = aws_db_costs['db.t3.medium']  # Default
                     
-                    # Azure SQL cost (assume Standard S1)
-                    azure_cost = azure_costs['sql_costs']['standard_s1']
+                    # Azure SQL cost with MACC discount
+                    azure_cost_raw = azure_costs['sql_costs']['standard_s1']
+                    azure_cost = self.apply_macc_discount(azure_cost_raw)
                     
                     total_aws_cost += aws_cost
                     total_azure_cost += azure_cost
                     resources['sql'].append({
-                        'name': resource.name, 'aws_cost': aws_cost, 'azure_cost': azure_cost
+                        'name': resource.name, 'aws_cost': aws_cost, 'azure_cost': azure_cost,
+                        'azure_cost_raw': azure_cost_raw, 'macc_discount': self.macc_discount
                     })
                 
                 elif 'microsoft.web/sites' in resource_type:
                     # AWS Lambda + API Gateway cost (Dynamic pricing)
                     aws_cost = aws_lambda_cost
                     
-                    # Azure App Service cost (assume Basic B1)
-                    azure_cost = azure_costs['app_costs']['basic_b1']
+                    # Azure App Service cost with MACC discount
+                    azure_cost_raw = azure_costs['app_costs']['basic_b1']
+                    azure_cost = self.apply_macc_discount(azure_cost_raw)
                     
                     total_aws_cost += aws_cost
                     total_azure_cost += azure_cost
                     resources['apps'].append({
-                        'name': resource.name, 'aws_cost': aws_cost, 'azure_cost': azure_cost
+                        'name': resource.name, 'aws_cost': aws_cost, 'azure_cost': azure_cost,
+                        'azure_cost_raw': azure_cost_raw, 'macc_discount': self.macc_discount
                     })
                 
                 else:
@@ -601,7 +657,19 @@ def main():
     print("="*80)
     print("💰 COST COMPARISON SUMMARY")
     print("="*80)
-    print(f"Azure (Current):     ${total_azure_cost:.2f}/month")
+    
+    # Show MACC discount information if applied
+    analyzer_instance = analyzer  # Access analyzer instance
+    if analyzer_instance.macc_discount > 0:
+        # Calculate what Azure would cost without MACC discount
+        total_azure_cost_raw = total_azure_cost / (1 - analyzer_instance.macc_discount / 100)
+        macc_savings = total_azure_cost_raw - total_azure_cost
+        print(f"Azure (List Price):  ${total_azure_cost_raw:.2f}/month")
+        print(f"MACC Discount ({analyzer_instance.macc_discount}%):   -${macc_savings:.2f}/month")
+        print(f"Azure (Your Cost):   ${total_azure_cost:.2f}/month")
+    else:
+        print(f"Azure (Current):     ${total_azure_cost:.2f}/month")
+    
     print(f"AWS (Equivalent):    ${total_aws_cost:.2f}/month")
     print("-" * 80)
     
@@ -674,7 +742,7 @@ print_step "Running Azure Resource Analysis"
 print_info "This will scan your Azure subscription and estimate AWS costs..."
 echo ""
 
-python3 azure_analyzer.py
+MACC_DISCOUNT=$MACC_DISCOUNT python3 azure_analyzer.py
 
 # Step 7: Cleanup and summary
 print_step "Analysis Complete!"
