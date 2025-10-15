@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 REM Windows Batch Script for Azure Resource Discovery
 REM This script sets up and runs the Azure analyzer on Windows
 
@@ -57,24 +58,53 @@ echo 🔷 Installing Python dependencies...
 echo ℹ️  This may take a moment - installing Azure SDK packages...
 echo.
 
-REM Try pip install with verbose output
-pip install -r requirements.txt --user --upgrade
-if %ERRORLEVEL% NEQ 0 (
-    echo.
-    echo ❌ Failed to install Python dependencies with pip
-    echo.
-    echo 🔧 Troubleshooting steps:
-    echo 1. Make sure you have internet connection
-    echo 2. Try running as Administrator
-    echo 3. Update pip: python -m pip install --upgrade pip
-    echo 4. Manual install: pip install azure-identity azure-mgmt-resource azure-mgmt-compute azure-mgmt-storage azure-mgmt-sql azure-mgmt-web requests
-    echo.
-    echo 📋 Required packages:
-    type requirements.txt
-    echo.
-    pause
-    exit /b 1
+REM First try to upgrade pip itself
+echo Updating pip...
+python -m pip install --upgrade pip --user >nul 2>nul
+
+REM Try different installation methods
+echo Installing dependencies...
+
+REM Method 1: Try with requirements.txt and --user flag
+pip install -r requirements.txt --user --upgrade --no-warn-script-location
+if %ERRORLEVEL% EQU 0 (
+    echo ✅ Dependencies installed successfully with requirements.txt
+    goto :deps_success
 )
+
+echo ⚠️  requirements.txt install failed, trying individual packages...
+
+REM Method 2: Install packages individually 
+set PACKAGES=azure-identity azure-mgmt-resource azure-mgmt-compute azure-mgmt-storage azure-mgmt-sql azure-mgmt-web requests
+
+for %%p in (%PACKAGES%) do (
+    echo Installing %%p...
+    pip install %%p --user --upgrade --no-warn-script-location
+    if !ERRORLEVEL! NEQ 0 (
+        echo ⚠️  Failed to install %%p, trying with python -m pip...
+        python -m pip install %%p --user --upgrade --no-warn-script-location
+    )
+)
+
+REM Method 3: Test if core packages are available
+echo.
+echo Testing package imports...
+python -c "import azure.identity; print('✅ azure-identity')" 2>nul || (
+    echo ❌ azure-identity not working, trying alternative installation...
+    python -m pip install azure-identity --user --force-reinstall
+)
+
+python -c "import azure.mgmt.resource; print('✅ azure-mgmt-resource')" 2>nul || (
+    echo ❌ azure-mgmt-resource not working, trying alternative installation...
+    python -m pip install azure-mgmt-resource --user --force-reinstall
+)
+
+python -c "import requests; print('✅ requests')" 2>nul || (
+    echo ❌ requests not working, trying alternative installation...
+    python -m pip install requests --user --force-reinstall
+)
+
+:deps_success
 
 echo.
 echo ✅ Python dependencies installed successfully!

@@ -45,30 +45,41 @@ if %ERRORLEVEL% EQU 0 (
     goto :end
 )
 
+REM Upgrade pip first
+echo.
+echo 🔷 Upgrading pip...
+python -m pip install --upgrade pip --user
+
 REM Install Python packages
 echo.
 echo 🔷 Installing Python packages...
 echo.
+
+REM Method 1: Try with python -m pip (more reliable)
 echo Installing: azure-identity
-pip install azure-identity --user --upgrade
+python -m pip install azure-identity --user --upgrade --no-warn-script-location
 echo.
 echo Installing: azure-mgmt-resource
-pip install azure-mgmt-resource --user --upgrade
+python -m pip install azure-mgmt-resource --user --upgrade --no-warn-script-location
 echo.
 echo Installing: azure-mgmt-compute  
-pip install azure-mgmt-compute --user --upgrade
+python -m pip install azure-mgmt-compute --user --upgrade --no-warn-script-location
 echo.
 echo Installing: azure-mgmt-storage
-pip install azure-mgmt-storage --user --upgrade
+python -m pip install azure-mgmt-storage --user --upgrade --no-warn-script-location
 echo.
 echo Installing: azure-mgmt-sql
-pip install azure-mgmt-sql --user --upgrade
+python -m pip install azure-mgmt-sql --user --upgrade --no-warn-script-location
 echo.
 echo Installing: azure-mgmt-web
-pip install azure-mgmt-web --user --upgrade
+python -m pip install azure-mgmt-web --user --upgrade --no-warn-script-location
 echo.
 echo Installing: requests
-pip install requests --user --upgrade
+python -m pip install requests --user --upgrade --no-warn-script-location
+
+echo.
+echo 🔷 Alternative installation attempt (if any failed above)...
+pip install azure-identity azure-mgmt-resource azure-mgmt-compute azure-mgmt-storage azure-mgmt-sql azure-mgmt-web requests --user --upgrade --no-warn-script-location
 
 echo.
 echo 🔷 Testing imports...
