@@ -1,46 +1,67 @@
-# Azure Resource Discovery & AWS Cost Analyzer
+# 🚀 Azure Resource Discovery & AWS Cost Analyzer
 
-This tool discovers all resources in your Azure subscription and provides detailed cost comparisons between Azure and AWS. Perfect for cloud migration planning and cost optimization!
+A comprehensive tool that discovers your Azure resources and provides detailed AWS cost estimates. Available as both **command-line scripts** and a **professional web application**.
 
-## 🚀 Ultra-Simple Usage with Dynamic Pricing
+## ⚡ Quick Start Options
 
-### Linux/macOS/WSL
-**One command does everything:**
+### Option 1: 🖥️ Command Line (Local)
+Perfect for individual use and automation:
+
 ```bash
+# Linux/macOS
 ./analyze.sh
-```
 
-### Windows
-**Choose your preferred method:**
-```cmd
-# Command Prompt
+# Windows
 analyze.bat
-
-# PowerShell  
+# or
 .\analyze.ps1
 ```
 
-That's it! The script will:
-- ✅ Install Azure CLI if needed
-- ✅ Install Python dependencies  
-- ✅ Guide you through Azure login
-- ✅ **Fetch live pricing from Azure API** (349+ VM SKUs)
-- ✅ Discover all your Azure resources
-- ✅ Show equivalent AWS costs with current market rates
+### Option 2: 🌐 Web Application (Azure App Service)
+Professional web interface, perfect for teams:
 
-## ✨ Key Features
+```bash
+# One-click deployment to Azure
+cd webapp/deploy
+./deploy.sh
+```
 
-- 🎯 **Ultra-Simple**: Single script handles everything automatically
-- 🔄 **Dynamic Pricing**: Real-time pricing from Azure API (349+ VM SKUs)
-- 💾 **Smart Caching**: 6-hour cache for performance with always-current data
-- 🏢 **MACC Discount Support**: Applies enterprise volume discounts for accurate comparisons
-- 🔐 **Secure Login**: Guided Azure CLI authentication with multiple options
-- 📊 **Comprehensive Analysis**: Discovers VMs, Storage, SQL, Apps, and more
-- 💰 **Live Cost Comparison**: Side-by-side Azure vs AWS with current rates
-- 📈 **Enterprise-Ready**: Factors in your actual discounted Azure pricing  
-- 📄 **Detailed Reports**: Saves analysis to timestamped files
-- 🔄 **Multiple Subscriptions**: Easy subscription selection
-- 🛠️ **Professional Tools**: Full analyzer suite for advanced users
+**[📖 Web App Deployment Guide →](docs/WEB_APP_DEPLOYMENT.md)**
+
+## ✨ Features
+
+### 🔍 **Resource Discovery**
+- Virtual Machines (VMs) → EC2 instances
+- Storage Accounts → S3 buckets  
+- SQL Databases → RDS instances
+- App Services → Lambda + API Gateway
+- 18+ other Azure resource types
+
+### � **Cost Analysis**
+- **Real-time pricing** from Azure Retail Prices API
+- **349+ VM SKUs** with accurate sizing
+- **MACC discount support** for enterprise users
+- **Detailed cost breakdowns** by service type
+- **Professional reporting** (text, JSON, web)
+
+### 🏢 **Enterprise Features**
+- Microsoft Azure Consumption Commitment (MACC) discounts
+- Cross-platform compatibility (Windows, Linux, macOS)
+- Web interface for team collaboration
+- Managed Identity authentication (web app)
+- Automated deployment and scaling
+
+## 🆚 Deployment Comparison
+
+| Feature | Command Line | Web Application |
+|---------|-------------|-----------------|
+| **Setup Time** | 2 minutes | 5 minutes |
+| **Interface** | Terminal | Professional Web UI |
+| **Best For** | Individual use | Team/Enterprise |
+| **Sharing** | Export reports | Share URL |
+| **Authentication** | Azure CLI | Managed Identity |
+| **Cost** | Free | ~$13/month |
+| **Updates** | Git pull | Automatic |
 
 ## 📊 What You Get
 
@@ -60,6 +81,51 @@ AWS (Equivalent):    $17.00/month
 💰 Potential AWS Savings: $9.28/month (35.3%)
 💡 Annual AWS Savings:    $111.36/year
 ```
+
+### Web Application Features:
+- 🎨 **Beautiful interface** with progress tracking
+- 📊 **Interactive charts** and visual reports  
+- 👥 **Multi-user support** for team collaboration
+- 📱 **Mobile-responsive** design
+- 🔐 **Enterprise security** with managed identity
+- 📥 **Export options** (JSON, reports)
+
+---
+
+## 🚀 Getting Started
+
+### For Command Line Use:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/SammyhDev/azure_resource_discovery.git
+   cd azure_resource_discovery
+   ```
+
+2. **Run the analyzer:**
+   ```bash
+   # Linux/macOS
+   ./analyze.sh
+   
+   # Windows Command Prompt
+   analyze.bat
+   
+   # Windows PowerShell
+   .\analyze.ps1
+   ```
+
+### For Web Application:
+
+1. **Deploy to Azure App Service:**
+   ```bash
+   cd webapp/deploy
+   ./deploy.sh
+   ```
+
+2. **Access your web app:**
+   - Visit the provided URL
+   - Enter your MACC discount (if applicable)  
+   - Start analysis and view results
 
 ---
 
