@@ -8,12 +8,24 @@ git clone https://github.com/SammyhDev/azure_resource_discovery.git
 cd azure_resource_discovery
 ```
 
-### Step 2: Run the Analyzer
+### Step 2: Choose Your Experience
+
+#### Option A: 🖥️ Command Line (Individual Use)
 ```bash
+# Linux/macOS
 ./analyze.sh
+
+# Windows
+analyze.bat
 ```
 
-That's it! The script handles everything automatically.
+#### Option B: 🌐 Web Application (Team Use)
+```bash
+cd webapp/deploy
+./deploy.sh
+```
+
+That's it! Both options handle everything automatically.
 
 ## 🎯 What Happens Next
 

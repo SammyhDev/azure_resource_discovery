@@ -92,40 +92,37 @@ AWS (Equivalent):    $17.00/month
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started From Scratch
 
-### For Command Line Use:
+### **🎯 New User? Start Here:**
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/SammyhDev/azure_resource_discovery.git
-   cd azure_resource_discovery
-   ```
+```bash
+# 1. Clone the repository
+git clone https://github.com/SammyhDev/azure_resource_discovery.git
+cd azure_resource_discovery
 
-2. **Run the analyzer:**
-   ```bash
-   # Linux/macOS
-   ./analyze.sh
-   
-   # Windows Command Prompt
-   analyze.bat
-   
-   # Windows PowerShell
-   .\analyze.ps1
-   ```
+# 2. See your options (optional but recommended)
+./FIRST_TIME_SETUP.sh
 
-### For Web Application:
+# 3a. Command Line Version (Individual Use)
+./analyze.sh        # Linux/macOS
+analyze.bat         # Windows
 
-1. **Deploy to Azure App Service:**
-   ```bash
-   cd webapp/deploy
-   ./deploy.sh
-   ```
+# 3b. OR Web Application Version (Team Use)
+cd webapp/deploy && ./deploy.sh
+```
 
-2. **Access your web app:**
-   - Visit the provided URL
-   - Enter your MACC discount (if applicable)  
-   - Start analysis and view results
+### **⚡ That's It! Both Options Are Fully Automated**
+
+**Command Line:** Zero-configuration, runs locally, perfect for individual use  
+**Web App:** Professional interface, team collaboration, deployed to Azure App Service
+
+### **📋 What Each Option Provides:**
+- ✅ Discovers all Azure resources in your subscription
+- ✅ Maps to equivalent AWS services with accurate pricing
+- ✅ Applies MACC enterprise discounts if you have them
+- ✅ Generates detailed cost comparison reports
+- ✅ Shows potential savings and migration insights
 
 ---
 
