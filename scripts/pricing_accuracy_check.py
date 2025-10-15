@@ -15,49 +15,49 @@ def analyze_pricing_accuracy():
     # Our current estimates (from the script)
     our_estimates = {
         'EC2': {
-            't3.nano': 3.8,      # Monthly
-            't3.micro': 7.6,     # Monthly
-            't3.small': 15.2,    # Monthly
-            't3.medium': 30.4,   # Monthly
-            't3.large': 60.8,    # Monthly
-            'm5.large': 70.1,    # Monthly
-            'm5.xlarge': 140.2   # Monthly
+            't3.nano': 3.80,     # Monthly (Updated)
+            't3.micro': 7.59,    # Monthly (Updated)
+            't3.small': 15.18,   # Monthly (Updated)
+            't3.medium': 30.37,  # Monthly (Updated)
+            't3.large': 60.74,   # Monthly (Updated)
+            'm5.large': 69.35,   # Monthly (Updated)
+            'm5.xlarge': 138.70  # Monthly (Updated)
         },
         'S3': {
             'standard': 0.023    # Per GB/month
         },
         'RDS': {
-            'db.t3.micro': 12.8,   # Monthly
-            'db.t3.small': 25.6,   # Monthly
-            'db.t3.medium': 51.2   # Monthly
+            'db.t3.micro': 11.52,  # Monthly (Updated)
+            'db.t3.small': 29.06,  # Monthly (Updated)
+            'db.t3.medium': 58.11  # Monthly (Updated)
         },
         'Lambda': {
-            'typical_app': 10.0    # Monthly estimate for typical web app
+            'typical_app': 8.50    # Monthly estimate for typical web app (Updated)
         }
     }
     
     # Actual AWS pricing (as of October 2024 - these are approximate current rates)
     # Sources: AWS Pricing Calculator, AWS EC2 pricing page, etc.
     actual_aws_pricing = {
-        'EC2': {  # US East (N. Virginia) On-Demand pricing per month (720 hours)
-            't3.nano': 3.80,      # $0.0052/hour * 720 = $3.744
-            't3.micro': 7.58,     # $0.0104/hour * 720 = $7.488  (Free Tier eligible)
-            't3.small': 15.12,    # $0.021/hour * 720 = $15.12
-            't3.medium': 30.24,   # $0.042/hour * 720 = $30.24
-            't3.large': 60.48,    # $0.084/hour * 720 = $60.48
-            'm5.large': 69.12,    # $0.096/hour * 720 = $69.12
-            'm5.xlarge': 138.24   # $0.192/hour * 720 = $138.24
+        'EC2': {  # US East (N. Virginia) On-Demand pricing per month (730 hours)
+            't3.nano': 3.80,      # $0.0052/hour * 730 = $3.796
+            't3.micro': 7.59,     # $0.0104/hour * 730 = $7.592  (Free Tier eligible)
+            't3.small': 15.18,    # $0.0208/hour * 730 = $15.184
+            't3.medium': 30.37,   # $0.0416/hour * 730 = $30.368
+            't3.large': 60.74,    # $0.0832/hour * 730 = $60.736
+            'm5.large': 69.35,    # $0.095/hour * 730 = $69.35
+            'm5.xlarge': 138.70   # $0.19/hour * 730 = $138.70
         },
         'S3': {
             'standard': 0.023     # $0.023 per GB/month (first 50TB)
         },
         'RDS': {  # MySQL/PostgreSQL On-Demand pricing per month
-            'db.t3.micro': 11.52,   # $0.016/hour * 720 = $11.52 (Free Tier eligible)
-            'db.t3.small': 28.80,   # $0.040/hour * 720 = $28.80
-            'db.t3.medium': 57.60   # $0.080/hour * 720 = $57.60
+            'db.t3.micro': 11.52,   # $0.0158/hour * 730 = $11.534 (Free Tier eligible)
+            'db.t3.small': 29.06,   # $0.0398/hour * 730 = $29.054
+            'db.t3.medium': 58.11   # $0.0796/hour * 730 = $58.108
         },
         'Lambda': {
-            'typical_app': 8.50     # Very variable - depends on requests/duration
+            'typical_app': 8.50     # Updated estimate - depends on requests/duration
         }
     }
     

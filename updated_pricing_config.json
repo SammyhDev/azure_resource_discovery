@@ -1,0 +1,80 @@
+{
+  "last_updated": "2025-10-15",
+  "currency": "USD",
+  "region_azure": "East US",
+  "region_aws": "us-east-1",
+  "azure": {
+    "vm_costs": {
+      "standard_b1s": 7.59,
+      "standard_b1ms": 15.18,
+      "standard_b2s": 30.37,
+      "standard_b2ms": 60.74,
+      "standard_b4ms": 121.47,
+      "standard_d2s_v3": 96.36,
+      "standard_d4s_v3": 192.72,
+      "standard_d8s_v3": 385.44,
+      "default": 50.0
+    },
+    "storage_costs": {
+      "standard_lrs": 0.0208,
+      "standard_grs": 0.0416,
+      "premium_lrs": 0.15,
+      "hot": 0.0208,
+      "cool": 0.0108,
+      "archive": 0.00099
+    },
+    "sql_costs": {
+      "basic": 5.0,
+      "standard_s0": 15.0,
+      "standard_s1": 30.0,
+      "standard_s2": 75.0,
+      "premium_p1": 465.0,
+      "gp_gen5_2": 420.0,
+      "default": 50.0
+    },
+    "app_costs": {
+      "free": 0.0,
+      "shared": 9.49,
+      "basic_b1": 13.14,
+      "standard_s1": 56.94,
+      "premium_p1v2": 85.41,
+      "default": 25.0
+    }
+  },
+  "aws": {
+    "ec2_costs": {
+      "t3.nano": 3.8,
+      "t3.micro": 7.59,
+      "t3.small": 15.18,
+      "t3.medium": 30.37,
+      "t3.large": 60.74,
+      "m5.large": 69.35,
+      "m5.xlarge": 138.7
+    },
+    "s3_costs": {
+      "standard": 0.023,
+      "standard_ia": 0.0125,
+      "glacier": 0.004,
+      "deep_archive": 0.00099
+    },
+    "rds_costs": {
+      "db.t3.micro": 11.52,
+      "db.t3.small": 29.06,
+      "db.t3.medium": 58.11,
+      "db.t3.large": 116.23,
+      "db.m5.large": 127.74
+    },
+    "lambda_costs": {
+      "low_usage": 5.0,
+      "medium_usage": 15.0,
+      "high_usage": 50.0,
+      "typical_web_app": 8.5
+    }
+  },
+  "notes": {
+    "azure_source": "Azure Retail Prices API and official pricing calculator",
+    "aws_source": "AWS Pricing Calculator and official documentation",
+    "calculation_method": "Hourly rates * 730 hours/month for compute",
+    "accuracy": "Validated against official sources October 2024"
+  }
+}

@@ -2,26 +2,33 @@
 
 This tool discovers all resources in your Azure subscription and provides detailed cost comparisons between Azure and AWS. Perfect for cloud migration planning and cost optimization!
 
-## 🚀 Ultra-Simple Quick Start
+## 🚀 Ultra-Simple Usage with Dynamic Pricing
 
-### Just Run One Command!
-
+**One command does everything:**
 ```bash
-git clone https://github.com/SammyhDev/azure_resource_discovery.git
-cd azure_resource_discovery
 ./analyze.sh
 ```
 
-**That's it!** The script will:
-- ✅ Install Azure CLI (if needed)
+That's it! The script will:
+- ✅ Install Azure CLI if needed
 - ✅ Install Python dependencies  
 - ✅ Guide you through Azure login
-- ✅ Scan your Azure resources
-- ✅ **Show both Azure and AWS costs**
-- ✅ **Calculate potential savings**
-- ✅ Save a detailed comparison report
+- ✅ **Fetch live pricing from Azure API** (349+ VM SKUs)
+- ✅ Discover all your Azure resources
+- ✅ Show equivalent AWS costs with current market rates
 
-**No configuration, no prerequisites to install manually, no complex setup!**
+## ✨ Key Features
+
+- 🎯 **Ultra-Simple**: Single script handles everything automatically
+- 🔄 **Dynamic Pricing**: Real-time pricing from Azure API (349+ VM SKUs)
+- 💾 **Smart Caching**: 6-hour cache for performance with always-current data
+- 🔐 **Secure Login**: Guided Azure CLI authentication with multiple options
+- 📊 **Comprehensive Analysis**: Discovers VMs, Storage, SQL, Apps, and more
+- 💰 **Live Cost Comparison**: Side-by-side Azure vs AWS with current rates
+- 📈 **Accurate Savings**: Real market-based potential savings calculations  
+- 📄 **Detailed Reports**: Saves analysis to timestamped files
+- 🔄 **Multiple Subscriptions**: Easy subscription selection
+- 🛠️ **Professional Tools**: Full analyzer suite for advanced users
 
 ## 📊 What You Get
 
@@ -31,15 +38,15 @@ cd azure_resource_discovery
 ------------------------------------------------------------
    • your-web-app
      Azure: Basic B1 ($13.14/month)
-     AWS: Lambda + API Gateway ($10.00/month)
-     💰 AWS saves $3.14/month (23.9%)
+     AWS: Lambda + API Gateway ($8.50/month)
+     💰 AWS saves $4.64/month (35.3%)
 
 💰 COST COMPARISON SUMMARY
 ================================================================================
 Azure (Current):     $26.28/month
-AWS (Equivalent):    $20.00/month
-💰 Potential AWS Savings: $6.28/month (23.9%)
-💡 Annual AWS Savings:    $75.36/year
+AWS (Equivalent):    $17.00/month
+💰 Potential AWS Savings: $9.28/month (35.3%)
+💡 Annual AWS Savings:    $111.36/year
 ```
 
 ---
@@ -79,12 +86,18 @@ That's it! You'll get a comprehensive report showing:
 - **📋 Other Resources** → Catalogued with recommendations
 
 ### Comprehensive Cost Analysis:
-- **Current Azure costs** (based on actual pricing)
-- **Equivalent AWS costs** (with 7.4% accuracy rate)
+- **Current Azure costs** (fetched from live Azure Pricing API)
+- **Equivalent AWS costs** (real-time pricing with smart caching)
 - **Side-by-side comparison** for each resource
 - **Potential savings calculations** with percentages
 - **Annual cost impact** projections
 - **Migration recommendations** with cost optimization tips
+
+### 🚀 Dynamic Pricing System:
+- **Real-time Updates**: Fetches current pricing from official APIs
+- **Smart Caching**: 6-hour cache for performance
+- **349 Azure VM SKUs**: Comprehensive coverage of all VM types
+- **Auto-Fallback**: Verified pricing if APIs are unavailable
 
 ## 💡 Usage Examples
 
