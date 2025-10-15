@@ -28,13 +28,39 @@ echo "✅ Resource group ready"
 
 # Deploy ARM template
 echo "🔷 Deploying App Service..."
+echo "ℹ️  Using Free (F1) tier to avoid quota issues..."
+
 DEPLOYMENT_OUTPUT=$(az deployment group create \
     --resource-group $RESOURCE_GROUP \
-    --template-file deploy/azure-template.json \
+    --template-file azure-template.json \
     --parameters webAppName=$APP_NAME \
     --parameters location="$LOCATION" \
-    --parameters sku="B1" \
+    --parameters sku="F1" \
     --output json)
+
+if [ $? -ne 0 ]; then
+    echo "❌ Deployment failed. Common causes:"
+    echo ""
+    echo "🔹 QUOTA LIMITATIONS:"
+    echo "   Your subscription may not have App Service quota available"
+    echo "   Solution: Request quota increase in Azure portal"
+    echo "   Go to: Subscriptions → Usage + quotas → Request increase"
+    echo ""
+    echo "🔹 SUBSCRIPTION TYPE:"
+    echo "   Some subscription types (Student, Trial) have limitations"
+    echo "   Solution: Upgrade to Pay-As-You-Go or other subscription type"
+    echo ""
+    echo "🔹 REGIONAL AVAILABILITY:"
+    echo "   Try a different Azure region (currently using: $LOCATION)"
+    echo "   Popular alternatives: West US 2, West Europe, Southeast Asia"
+    echo ""
+    echo "💡 RECOMMENDED ACTIONS:"
+    echo "   1. Check your subscription quota in Azure portal"
+    echo "   2. Try a different region by editing this script"
+    echo "   3. Use the command-line version: cd ../../ && ./analyze.sh"
+    echo ""
+    exit 1
+fi
 
 WEB_APP_NAME=$(echo $DEPLOYMENT_OUTPUT | jq -r '.properties.outputs.webAppName.value')
 WEB_APP_URL=$(echo $DEPLOYMENT_OUTPUT | jq -r '.properties.outputs.webAppUrl.value')
@@ -57,7 +83,7 @@ echo "✅ Permissions configured (Reader access to subscription)"
 
 # Deploy the application code
 echo "🔷 Deploying application code..."
-cd ..
+cd ../..
 zip -r webapp.zip webapp/ --exclude="webapp/__pycache__/*" "webapp/*.pyc" "webapp/deploy/*"
 
 az webapp deploy \
@@ -68,6 +94,7 @@ az webapp deploy \
     --output none
 
 rm webapp.zip
+cd webapp/deploy
 echo "✅ Application code deployed"
 
 # Configure app settings

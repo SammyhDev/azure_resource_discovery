@@ -85,6 +85,14 @@ az webapp deploy \
 
 ## 🔧 **Configuration**
 
+### Prerequisites
+Before deploying, ensure your Azure subscription has:
+- App Service quota available (at least 1 Free or Basic plan)
+- Resource Group creation permissions
+- Reader permissions can be assigned
+
+**Note:** Some subscription types (Student, Trial) may have App Service limitations. In this case, use the command-line version instead.
+
 ### Required App Settings
 The following settings are automatically configured by the deployment script:
 
