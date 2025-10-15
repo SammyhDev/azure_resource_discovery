@@ -4,9 +4,20 @@ This tool discovers all resources in your Azure subscription and provides detail
 
 ## 🚀 Ultra-Simple Usage with Dynamic Pricing
 
+### Linux/macOS/WSL
 **One command does everything:**
 ```bash
 ./analyze.sh
+```
+
+### Windows
+**Choose your preferred method:**
+```cmd
+# Command Prompt
+analyze.bat
+
+# PowerShell  
+.\analyze.ps1
 ```
 
 That's it! The script will:
@@ -48,6 +59,24 @@ Azure (Current):     $26.28/month
 AWS (Equivalent):    $17.00/month
 💰 Potential AWS Savings: $9.28/month (35.3%)
 💡 Annual AWS Savings:    $111.36/year
+```
+
+---
+
+## 💻 Windows Users - Important Note
+
+If you get PowerShell execution policy errors when trying to run bash scripts, use the Windows-specific versions:
+
+**❌ Don't use:** `./analyze.sh` (this is for Linux/macOS)  
+**✅ Use instead:** `analyze.bat` or `.\analyze.ps1`
+
+### Quick Fix for PowerShell Issues:
+```powershell
+# If you get execution policy errors, run this once:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# Then run the analyzer:
+.\analyze.ps1
 ```
 
 ---
